@@ -1,95 +1,254 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECI - System Management</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { overflow: hidden; background: #F8F8F8; }
-        .iframe-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECI - System Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandYellow: '#F5C518',
+            darkGrey: '#2D2D2D',
+          }
         }
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #F8F8F8; }
+    .header-pattern { background: linear-gradient(135deg, #F5C518 0%, #E8B400 100%); }
+    .custom-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .pill-nav-item { transition: all 0.25s ease; cursor: pointer; }
+    .pill-nav-item:hover { opacity: 0.85; }
+    .tab-content { display: none; animation: fadeIn 0.35s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .cert-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .cert-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+  </style>
 </head>
-<body>
+<body class="text-darkGrey min-h-screen">
 
-    <div class="iframe-container">
-        <iframe id="mainFrame" title="ECI System Management"></iframe>
+  <!-- Header -->
+  <header class="header-pattern relative overflow-hidden pt-12 pb-24 px-6">
+    <div class="absolute top-4 left-10 w-8 h-8 border-4 border-white/20 rounded-full"></div>
+    <div class="absolute top-20 right-10 w-12 h-12 border-4 border-white/10 rounded-lg rotate-45"></div>
+    <div class="absolute bottom-10 left-1/2 w-6 h-6 border-3 border-white/15 rounded-full"></div>
+    <div class="relative z-10">
+      <h1 class="text-[42px] font-extrabold text-white leading-tight tracking-tight text-center">
+        System Management
+      </h1>
     </div>
+  </header>
 
-    <script>
-        const SOURCE_URL = 'https://eci-operation.github.io/ECI_Page/';
+  <!-- Content -->
+  <main class="flex-grow -mt-16 px-4 pb-8 relative z-20">
 
-        fetch(SOURCE_URL)
-            .then(res => res.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+    <!-- Tab Navigation -->
+    <nav class="bg-white rounded-full p-1 flex justify-between items-center mb-6 custom-shadow border border-gray-100" id="tabNav">
+      <button class="pill-nav-item flex-1 py-2.5 px-2 text-xs font-semibold bg-brandYellow text-darkGrey rounded-full whitespace-nowrap" data-tab="qa" onclick="switchTab('qa')">
+        Quality Assurance
+      </button>
+      <button class="pill-nav-item flex-1 py-2.5 px-2 text-xs font-semibold text-gray-500 rounded-full whitespace-nowrap" data-tab="fs" onclick="switchTab('fs')">
+        Food Safety
+      </button>
+      <button class="pill-nav-item flex-1 py-2.5 px-2 text-xs font-semibold text-gray-500 rounded-full whitespace-nowrap" data-tab="cert" onclick="switchTab('cert')">
+        Certification
+      </button>
+    </nav>
 
-                // 1. Hapus footer navigasi (HOME, NATURE, CATALOG, CONTACT)
-                const bottomNav = doc.querySelector('[data-purpose="bottom-nav"]');
-                if (bottomNav) bottomNav.remove();
+    <!-- TAB 1: Quality Assurance -->
+    <section class="tab-content active" id="tab-qa">
+      <div class="bg-white rounded-3xl p-6 custom-shadow">
+        <div class="flex justify-center mb-8">
+          <img alt="Quality Assurance Illustration" class="w-full max-w-[280px] h-auto object-contain" loading="lazy"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk0B-hQRNrE0cnOpmiCh3Ck-I9H9LSC5j93fvsABONSUMNDXPW1HDk4gSRWSvGllGd-e2-jr0E1mwZpLpTmTvXugrlZDD9hSIExIhSkzjN_0Bd5N8pR-WkW4cPgz02EGFcXmuMSzuDaE199xBFAnRQKnCuIbqUihY2SHoFyl2Id7B4sSFmBgrHASIRFyUz-xSpE1GePAb1j24665fskWJuq42HrcSxus7MoYGDITrKd604vuFr5WYIBn8nT6sI0TeHiNOvMTQzrg"/>
+        </div>
+        <div class="space-y-4">
+          <p class="text-lg leading-snug">
+            <span class="font-bold">Quality Assurance:</span> Komitmen kami terhadap mutu produk keju terbaik.
+          </p>
+          <ul class="space-y-3 text-md text-gray-800 ml-1">
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Penerapan Sistem Manajemen Mutu ISO 9001:2015, Sistem Manajemen Keamanan Pangan FSSC 22000, SNI, serta Sistem Jaminan Halal.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Kontrol kualitas ketat di setiap tahap produksi keju — dari penerimaan susu, pasteurisasi, fermentasi, hingga pengemasan.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Instrumen laboratorium untuk pengujian mutu dikalibrasi secara berkala guna memastikan akurasi dan keandalan hasil pengujian.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Berpartisipasi dalam uji profisiensi tingkat nasional dan internasional untuk produk dairy secara periodik.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Menggunakan hanya susu segar dan bahan baku dairy berkualitas tinggi dari pemasok terseleksi.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Mengoptimalkan Pusat Riset &amp; Pengembangan PT Emina Cheese Indonesia untuk inovasi berkelanjutan dalam variasi produk keju.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-2 mt-1.5 w-1.5 h-1.5 rounded-full bg-brandYellow flex-shrink-0"></span>
+              <span>Memanfaatkan pilot plant untuk riset pengembangan produk baru sebelum produksi massal dilakukan.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-                // 2. Judul "System Management" jadi 1 baris di tengah (hapus <br/>)
-                const h1 = doc.querySelector('h1');
-                if (h1) {
-                    h1.innerHTML = 'System Management';
-                    h1.style.textAlign = 'center';
-                }
+    <!-- TAB 2: Food Safety -->
+    <section class="tab-content" id="tab-fs">
+      <div class="bg-white rounded-3xl p-6 custom-shadow">
+        <div class="flex justify-center mb-8">
+          <div class="w-full max-w-[280px] h-[200px] bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl flex items-center justify-center">
+            <svg class="w-24 h-24 text-brandYellow" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="space-y-5">
+          <div>
+            <p class="text-lg font-bold mb-2">Food Safety Management System</p>
+            <p class="text-gray-700 leading-relaxed">Dengan produk utama untuk industri makanan, sejak awal PT Emina Cheese Indonesia menerapkan Sistem Manajemen Keamanan Pangan dalam proses produksi keju dan rantai pasok untuk mencegah serta mengendalikan potensi bahaya fisik, kimia, dan biologis.</p>
+          </div>
+          <div>
+            <p class="text-md font-bold mb-2 text-brandYellow">Inisiatif &amp; Perbaikan Berkelanjutan</p>
+            <p class="text-gray-700 leading-relaxed text-sm">Kami menerapkan HACCP (Hazard Analysis Critical Control Point) yang terintegrasi dengan ISO 9001 sebagai QFSMS, sejalan dengan komitmen bisnis untuk menghasilkan produk keju yang konsisten, bermutu tinggi, dan aman untuk dikonsumsi. Kami terus mengadopsi standar terbaru termasuk FSSC 22000 yang diakui oleh GFSI (Global Food Safety Initiative).</p>
+          </div>
+          <div class="space-y-3 mt-4">
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">HACCP Implementation</p>
+              <p class="text-xs text-gray-600 mt-1">Penerapan HACCP di seluruh proses produksi keju dan rantai pasok, mencakup identifikasi, penilaian, dan pengendalian bahaya dari bahan baku susu, proses fermentasi, dan lingkungan.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">Good Manufacturing Practice (GMP)</p>
+              <p class="text-xs text-gray-600 mt-1">Higienitas personal menjadi budaya dalam aktivitas karyawan. Fasilitas yang memadai disiapkan sebagai fondasi efektivitas Sistem Manajemen Keamanan Pangan.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">Manajemen Alergen</p>
+              <p class="text-xs text-gray-600 mt-1">Identifikasi semua bahan alergen (termasuk susu dan produk dairy) serta pengendalian untuk memenuhi persyaratan regulasi.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">Cold Chain Management</p>
+              <p class="text-xs text-gray-600 mt-1">Pengendalian suhu ketat di seluruh rantai dingin — dari penyimpanan susu segar, proses produksi, hingga distribusi produk keju.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">TACCP &amp; VACCP</p>
+              <p class="text-xs text-gray-600 mt-1">Sistem untuk melindungi produk dari kecurangan rantai pasok hulu dan mencegah sabotase dalam operasi.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border-l-4 border-brandYellow">
+              <p class="font-semibold text-sm">Environmental Monitoring Program (EMP)</p>
+              <p class="text-xs text-gray-600 mt-1">Identifikasi dan pengendalian potensi kontaminasi tinggi dari lingkungan produksi keju.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                // 3. Kurangi padding bawah main karena nav sudah dihapus
-                const mainContent = doc.querySelector('main');
-                if (mainContent) {
-                    mainContent.style.paddingBottom = '2rem';
-                }
+    <!-- TAB 3: Certification -->
+    <section class="tab-content" id="tab-cert">
+      <div class="bg-white rounded-3xl p-6 custom-shadow">
+        <div class="flex justify-center mb-6">
+          <div class="w-full max-w-[280px] h-[200px] bg-gradient-to-br from-yellow-50 to-amber-50 rounded-2xl flex items-center justify-center">
+            <svg class="w-24 h-24 text-brandYellow" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.023 6.023 0 01-2.77.853m0 0l.072.037M12 13.581a6.023 6.023 0 01-2.77-.853"/>
+            </svg>
+          </div>
+        </div>
+        <p class="text-lg font-bold mb-4 text-center">Sertifikasi Kami</p>
+        <div class="space-y-3">
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-brandYellow/20 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-brandYellow text-center leading-tight">FSSC<br>22000</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Food Safety Management System</p>
+              <p class="text-xs text-gray-500">Sertifikasi keamanan pangan yang diakui GFSI</p>
+            </div>
+          </div>
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-brandYellow/20 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-brandYellow text-center leading-tight">ISO<br>9001</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Quality Management System</p>
+              <p class="text-xs text-gray-500">Standar internasional manajemen mutu</p>
+            </div>
+          </div>
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-green-700 text-center leading-tight">HALAL<br>MUI</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Halal Assurance System</p>
+              <p class="text-xs text-gray-500">Sertifikasi Halal dari Majelis Ulama Indonesia</p>
+            </div>
+          </div>
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-blue-700 text-center leading-tight">SNI</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Standar Nasional Indonesia</p>
+              <p class="text-xs text-gray-500">SNI produk keju olahan</p>
+            </div>
+          </div>
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-purple-700 text-center leading-tight">BPOM</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Registrasi BPOM</p>
+              <p class="text-xs text-gray-500">Terdaftar di Badan Pengawas Obat dan Makanan</p>
+            </div>
+          </div>
+          <div class="cert-card flex items-center bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="w-16 h-16 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
+              <span class="text-xs font-bold text-orange-700 text-center leading-tight">GMP</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Good Manufacturing Practice</p>
+              <p class="text-xs text-gray-500">Praktik manufaktur yang baik untuk industri pangan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                // 4. Tambahkan <base> tag agar resource (CSS, gambar) tetap berfungsi
-                const baseTag = doc.createElement('base');
-                baseTag.href = SOURCE_URL;
-                doc.head.insertBefore(baseTag, doc.head.firstChild);
+  </main>
 
-                // 5. Inject script agar tombol tab bisa diklik (toggle active state)
-                const tabScript = doc.createElement('script');
-                tabScript.textContent = `
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const nav = document.querySelector('[data-purpose="segmented-control"]');
-                        if (!nav) return;
-                        const buttons = nav.querySelectorAll('button');
-                        buttons.forEach(function(btn) {
-                            btn.addEventListener('click', function() {
-                                // Hapus active state dari semua button
-                                buttons.forEach(function(b) {
-                                    b.classList.remove('bg-brandYellow', 'text-darkGrey');
-                                    b.classList.add('text-gray-500');
-                                });
-                                // Set active state ke button yang diklik
-                                btn.classList.add('bg-brandYellow', 'text-darkGrey');
-                                btn.classList.remove('text-gray-500');
-                            });
-                        });
-                    });
-                `;
-                doc.body.appendChild(tabScript);
-
-                // Tampilkan di iframe menggunakan srcdoc
-                document.getElementById('mainFrame').srcdoc = doc.documentElement.outerHTML;
-            })
-            .catch(() => {
-                // Fallback jika CORS memblokir: tampilkan iframe biasa
-                document.getElementById('mainFrame').src = SOURCE_URL;
-            });
-    </script>
+  <script>
+    function switchTab(tabId) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      // Reset all buttons
+      document.querySelectorAll('#tabNav button').forEach(function(btn) {
+        btn.classList.remove('bg-brandYellow', 'text-darkGrey');
+        btn.classList.add('text-gray-500');
+      });
+      // Show selected tab
+      var target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+      // Highlight selected button
+      var activeBtn = document.querySelector('#tabNav button[data-tab="' + tabId + '"]');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-brandYellow', 'text-darkGrey');
+        activeBtn.classList.remove('text-gray-500');
+      }
+    }
+  </script>
 
 </body>
 </html>
